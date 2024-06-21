@@ -1,7 +1,10 @@
-#include <raylib.h>
 #include "game.hpp"
+#include <random>
+#include <raylib.h>
 
 int main() {
-    Game game;
-    game.run();
+  srand(time(NULL));
+  Game game;
+  game.run();
+  return 0;
 }

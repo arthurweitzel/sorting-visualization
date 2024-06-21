@@ -5,3 +5,6 @@ sorting: $(SOURCE)
 
 run:
 	./sorting
+
+clean:
+	rm sorting

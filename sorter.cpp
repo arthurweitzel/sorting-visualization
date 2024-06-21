@@ -2,29 +2,34 @@
 #include "global.hpp"
 #include <raylib.h>
 
-Sorter::Sorter() : array(ARRAY_SIZE), algo(std::make_unique<AlgoShuffle>()) {
-    for (size_t i = 0; i < ARRAY_SIZE; i++)
-        array.at(i) = i + 1;
+Sorter::Sorter()
+    : array(ARRAY_SIZE), algo(std::make_unique<AlgoShuffle>()),
+      should_sort(false) {
+  for (size_t i = 0; i < ARRAY_SIZE; i++)
+    array.at(i) = i + 1;
 }
 
-void Sorter::show(){
-    algo->sort(array); // Chamar o algoritmo atual
-    this->draw();
+void Sorter::sort_show() {
+  algo->sort(array, *this);
+  should_sort = false;
 }
 
-void Sorter::draw(){
-    float w = static_cast<float>(WINDOW_W) / ARRAY_SIZE; // Largura das colunas
-    float h = static_cast<float>(WINDOW_H) / ARRAY_SIZE; // Altura das colunas
+void Sorter::change_algorithm(std::unique_ptr<Algorithm> algo) {
+  this->algo = std::move(algo);
+}
 
-    BeginDrawing();
-    ClearBackground(BLACK);
+void Sorter::show() {
+  float w = static_cast<float>(WINDOW_W) / ARRAY_SIZE; // Largura das colunas
+  float h = static_cast<float>(WINDOW_H) / ARRAY_SIZE; // Altura das colunas
 
-    for (size_t i = 0; i < array.size(); i++){
-        float size = array.at(i);
-        float height = size * h;
-        DrawRectangleV({i * w, WINDOW_H - height}, {w, height}, WHITE);
-    }
+  BeginDrawing();
+  ClearBackground(BLACK);
 
-    EndDrawing();
+  for (size_t i = 0; i < array.size(); i++) {
+    float size = array.at(i);
+    float height = size * h;
+    DrawRectangleV({i * w, WINDOW_H - height}, {w, height}, WHITE);
+  }
 
+  EndDrawing();
 }
